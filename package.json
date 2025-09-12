@@ -13,7 +13,6 @@
     "deps": "npx npm-check -upE"
   },
   "dependencies": {
-    "simkit-core": "^0.1.3",
     "@javelin/ecs": "0.22.0",
     "@lastolivegames/becsy": "0.8.4",
     "bitecs": "0.3.34",
