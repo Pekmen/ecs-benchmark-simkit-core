@@ -1,0 +1,200 @@
+name: Run Benchmark
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        required: true
+        type: string
+        description: "Version to benchmark"
+      callback_repo:
+        required: true
+        type: string
+        description: "Repository to send results back to"
+      callback_token:
+        required: true
+        type: string
+        description: "Token for callback repository"
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout benchmark repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Update simkit-core to specified version
+        run: |
+          npm install simkit-core@${{ github.event.inputs.version }}
+          echo "Updated to simkit-core version:"
+          npm list simkit-core
+
+      - name: Run benchmarks
+        run: |
+          npm run bench:simkit > benchmark_output.txt 2>&1
+          cat benchmark_output.txt
+
+      - name: Parse benchmark results
+        id: parse
+        run: |
+          # Extract the results table from benchmark output
+          results=$(node -e "
+            const fs = require('fs');
+            const output = fs.readFileSync('benchmark_output.txt', 'utf8');
+            
+            // Find the results table
+            const lines = output.split('\n');
+            let tableStart = -1;
+            let dataLine = -1;
+            
+            for (let i = 0; i < lines.length; i++) {
+              if (lines[i].includes('| op/s |')) {
+                tableStart = i;
+              }
+              if (tableStart > -1 && lines[i].includes('| simkit-core |')) {
+                dataLine = i;
+                break;
+              }
+            }
+            
+            if (dataLine === -1) {
+              console.error('Could not find benchmark results');
+              process.exit(1);
+            }
+            
+            // Parse the data line
+            const data = lines[dataLine].split('|').map(s => s.trim()).filter(s => s);
+            const results = {
+              version: '${{ github.event.inputs.version }}',
+              timestamp: new Date().toISOString(),
+              results: {
+                packed_5: data[1] === 'TODO' ? null : parseInt(data[1].replace(/,/g, '')),
+                simple_iter: data[2] === 'TODO' ? null : parseInt(data[2].replace(/,/g, '')),
+                frag_iter: data[3] === 'TODO' ? null : parseInt(data[3].replace(/,/g, '')),
+                entity_cycle: data[4] === 'TODO' ? null : parseInt(data[4].replace(/,/g, '')),
+                add_remove: data[5] === 'TODO' ? null : parseInt(data[5].replace(/,/g, ''))
+              },
+              node_version: process.version,
+              os: process.platform
+            };
+            
+            console.log(JSON.stringify(results, null, 2));
+          ")
+
+          echo "$results" > results.json
+          echo "results<<EOF" >> $GITHUB_OUTPUT
+          echo "$results" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Checkout target repository
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.event.inputs.callback_repo }}
+          token: ${{ github.event.inputs.callback_token }}
+          path: target-repo
+
+      - name: Store benchmark results
+        run: |
+          # Create benchmarks directory if it doesn't exist
+          mkdir -p target-repo/benchmarks/results
+
+          # Copy results to target repository
+          cp results.json "target-repo/benchmarks/results/v${{ github.event.inputs.version }}.json"
+
+          # Also update latest.json
+          cp results.json target-repo/benchmarks/results/latest.json
+
+      - name: Update README with latest results
+        run: |
+          cd target-repo
+          if [ -f "benchmarks/update-readme.js" ]; then
+            node benchmarks/update-readme.js
+          else
+            echo "README update script not found, skipping README update"
+          fi
+
+      - name: Create and auto-merge benchmark results PR
+        id: create_pr
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ github.event.inputs.callback_token }}
+          path: target-repo
+          title: "docs: benchmark results for v${{ github.event.inputs.version }}"
+          body: |
+            ## Benchmark Results for v${{ github.event.inputs.version }}
+
+            Automated benchmark results from the release workflow.
+
+            ### Performance Summary
+
+            | Benchmark | Operations/sec |
+            |-----------|---------------:|
+            | Packed Iteration (5 queries) | ${{ fromJson(steps.parse.outputs.results).results.packed_5 || 'TODO' }} |
+            | Simple Iteration | ${{ fromJson(steps.parse.outputs.results).results.simple_iter || 'TODO' }} |
+            | Fragmented Iteration | ${{ fromJson(steps.parse.outputs.results).results.frag_iter || 'TODO' }} |
+            | Entity Cycle | ${{ fromJson(steps.parse.outputs.results).results.entity_cycle || 'TODO' }} |
+            | Add/Remove Component | ${{ fromJson(steps.parse.outputs.results).results.add_remove || 'TODO' }} |
+
+            *Benchmarks run on Node.js ${{ fromJson(steps.parse.outputs.results).node_version }} on ${{ fromJson(steps.parse.outputs.results).os }}*
+
+            ### Files Changed
+            - `benchmarks/results/v${{ github.event.inputs.version }}.json` - Benchmark data
+            - `benchmarks/results/latest.json` - Latest benchmark data  
+            - `README.md` - Updated performance section
+
+            This PR was automatically created by the benchmark workflow.
+          branch: "benchmark-results/v${{ github.event.inputs.version }}"
+          commit-message: "docs: add benchmark results for v${{ github.event.inputs.version }}"
+          delete-branch: true
+          labels: |
+            benchmark
+            automated
+            documentation
+
+      - name: Enable auto-merge on PR
+        if: steps.create_pr.outputs.pull-request-number
+        run: |
+          cd target-repo
+          gh pr merge ${{ steps.create_pr.outputs.pull-request-number }} --squash --auto
+        env:
+          GITHUB_TOKEN: ${{ github.event.inputs.callback_token }}
+
+      - name: Wait for PR to be merged
+        if: steps.create_pr.outputs.pull-request-number
+        run: |
+          echo "Waiting for PR to be merged..."
+          PR_NUMBER="${{ steps.create_pr.outputs.pull-request-number }}"
+          cd target-repo
+
+          # Wait up to 5 minutes for the PR to be merged
+          for i in {1..30}; do
+            PR_STATE=$(gh pr view $PR_NUMBER --json state --jq '.state')
+            if [ "$PR_STATE" = "MERGED" ]; then
+              echo "Benchmark PR has been merged successfully"
+              break
+            elif [ "$PR_STATE" = "CLOSED" ]; then
+              echo "Benchmark PR was closed without merging"
+              exit 1
+            else
+              echo "PR is still $PR_STATE, waiting... (attempt $i/30)"
+              sleep 10
+            fi
+          done
+
+          # Final check
+          PR_STATE=$(gh pr view $PR_NUMBER --json state --jq '.state')
+          if [ "$PR_STATE" != "MERGED" ]; then
+            echo "Benchmark PR was not merged within the timeout period"
+            echo "Please manually review and merge: https://github.com/${{ github.event.inputs.callback_repo }}/pull/$PR_NUMBER"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ github.event.inputs.callback_token }}

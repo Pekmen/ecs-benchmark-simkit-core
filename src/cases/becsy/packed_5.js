@@ -97,7 +97,7 @@ export default async (count) => {
       D,
       { value: 0 },
       E,
-      { value: 0 }
+      { value: 0 },
     );
   }
 

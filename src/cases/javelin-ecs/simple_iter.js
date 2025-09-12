@@ -85,21 +85,21 @@ export default (count) => {
     world.spawn(
       world.component(A, 0),
       world.component(B, 1),
-      world.component(C, 2)
+      world.component(C, 2),
     );
 
     world.spawn(
       world.component(A, 0),
       world.component(B, 1),
       world.component(C, 2),
-      world.component(D, 3)
+      world.component(D, 3),
     );
 
     world.spawn(
       world.component(A, 0),
       world.component(B, 1),
       world.component(C, 2),
-      world.component(E, 4)
+      world.component(E, 4),
     );
   }
 

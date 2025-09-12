@@ -7,7 +7,7 @@ const COMPS = Array.from(
       static schema = {
         value: { type: Types.Number },
       };
-    }
+    },
 );
 
 const Z = COMPS[25];

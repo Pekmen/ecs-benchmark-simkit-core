@@ -13,7 +13,7 @@ const COMPS = Array.from(
       reset(obj, value) {
         obj[name] = value;
       }
-    }
+    },
 );
 
 class Data extends Component {

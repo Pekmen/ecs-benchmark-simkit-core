@@ -40,8 +40,8 @@ export default function createSimpleIter(count) {
             B.arr[entity] = a;
           }
         },
-        (q) => q.every(A, B)
-      )
+        (q) => q.every(A, B),
+      ),
     )
     .registerSystem(
       createEntitySystem(
@@ -54,8 +54,8 @@ export default function createSimpleIter(count) {
             D.arr[entity] = c;
           }
         },
-        (q) => q.every(C, D)
-      )
+        (q) => q.every(C, D),
+      ),
     )
     .registerSystem(
       createEntitySystem(
@@ -68,8 +68,8 @@ export default function createSimpleIter(count) {
             E.arr[entity] = c;
           }
         },
-        (q) => q.every(C, E)
-      )
+        (q) => q.every(C, E),
+      ),
     )
     .initialize();
 

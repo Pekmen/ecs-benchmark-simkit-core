@@ -1,7 +1,7 @@
 import { Component, Engine } from "geotic";
 
 const COMPS = Array.from("ABCDEFGHIJKLMNOPQRSTUVWXYZ", (name) =>
-  Function("Component", `return class ${name} extends Component {}`)(Component)
+  Function("Component", `return class ${name} extends Component {}`)(Component),
 );
 
 const Z = COMPS[25];

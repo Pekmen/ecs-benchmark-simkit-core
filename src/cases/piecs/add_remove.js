@@ -14,8 +14,8 @@ export default function createAddRemove(count) {
             world.addComponent(entities[i], B);
           }
         },
-        (q) => q.every(A)
-      )
+        (q) => q.every(A),
+      ),
     )
     .registerSystem(
       createEntitySystem(
@@ -24,8 +24,8 @@ export default function createAddRemove(count) {
             world.removeComponent(entities[i], B);
           }
         },
-        (q) => q.every(B)
-      )
+        (q) => q.every(B),
+      ),
     )
     .initialize();
 

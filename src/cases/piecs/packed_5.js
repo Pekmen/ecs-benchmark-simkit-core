@@ -34,8 +34,8 @@ export default function createPacked5(count) {
             A.arr[entities[i]] *= 2;
           }
         },
-        (q) => q.every(A)
-      )
+        (q) => q.every(A),
+      ),
     )
     .registerSystem(
       createEntitySystem(
@@ -44,8 +44,8 @@ export default function createPacked5(count) {
             B.arr[entities[i]] *= 2;
           }
         },
-        (q) => q.every(B)
-      )
+        (q) => q.every(B),
+      ),
     )
     .registerSystem(
       createEntitySystem(
@@ -54,8 +54,8 @@ export default function createPacked5(count) {
             C.arr[entities[i]] *= 2;
           }
         },
-        (q) => q.every(C)
-      )
+        (q) => q.every(C),
+      ),
     )
     .registerSystem(
       createEntitySystem(
@@ -64,8 +64,8 @@ export default function createPacked5(count) {
             D.arr[entities[i]] *= 2;
           }
         },
-        (q) => q.every(D)
-      )
+        (q) => q.every(D),
+      ),
     )
     .registerSystem(
       createEntitySystem(
@@ -74,8 +74,8 @@ export default function createPacked5(count) {
             E.arr[entities[i]] *= 2;
           }
         },
-        (q) => q.every(E)
-      )
+        (q) => q.every(E),
+      ),
     )
     .initialize();
 

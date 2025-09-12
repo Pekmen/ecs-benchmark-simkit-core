@@ -16,8 +16,8 @@ export default function createEntityCycle(count) {
             world.createEntity(prefabB);
           }
         },
-        (q) => q.every(A)
-      )
+        (q) => q.every(A),
+      ),
     )
     .registerSystem(
       createEntitySystem(
@@ -26,8 +26,8 @@ export default function createEntityCycle(count) {
             world.deleteEntity(entities[i]);
           }
         },
-        (q) => q.every(B)
-      )
+        (q) => q.every(B),
+      ),
     )
     .initialize();
 

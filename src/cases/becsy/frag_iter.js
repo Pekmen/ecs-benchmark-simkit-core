@@ -8,7 +8,7 @@ export default async (count) => {
         static schema = {
           value: Type.int32,
         };
-      }
+      },
   );
 
   const Z = COMPS[25];

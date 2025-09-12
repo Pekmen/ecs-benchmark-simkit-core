@@ -4,7 +4,7 @@ import { pathToFileURL } from "node:url";
 
 // Load the function to bench
 let setup = await import(pathToFileURL(workerData.path)).then(
-  (module) => module.default
+  (module) => module.default,
 );
 let fn = await setup(workerData.config);
 

@@ -7,6 +7,7 @@ const OBJ = "obj";
 const SOA = "soa";
 
 const LIBRARIES = [
+  { kind: SOA, name: "simkit-core" },
   { kind: SOA, name: "bitecs" },
   { kind: SOA, name: "harmony-ecs" },
   { kind: SOA, name: "piecs" },
@@ -38,7 +39,7 @@ if (args.length > 0) {
   for (let arg of args) {
     if (arg[0] === "@") {
       filtered_libraries.push(
-        ...LIBRARIES.filter((lib) => lib.kind === arg.slice(1))
+        ...LIBRARIES.filter((lib) => lib.kind === arg.slice(1)),
       );
     } else {
       let lib = LIBRARIES.find((lib) => lib.name === arg);
@@ -96,10 +97,10 @@ for (let i = 0; i < libraries.length; i++) {
     `| ${libraries[i].name} | ` +
       RESULTS[i]
         .map((result) =>
-          "hz" in result ? Math.floor(result.hz).toLocaleString() : result
+          "hz" in result ? Math.floor(result.hz).toLocaleString() : result,
         )
         .join(" | ") +
-      " |"
+      " |",
   );
 }
 

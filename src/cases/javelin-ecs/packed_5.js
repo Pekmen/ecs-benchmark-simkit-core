@@ -82,7 +82,7 @@ export default (count) => {
       world.component(B),
       world.component(C),
       world.component(D),
-      world.component(E)
+      world.component(E),
     );
   }
 

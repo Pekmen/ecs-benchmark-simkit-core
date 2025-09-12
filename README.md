@@ -28,6 +28,12 @@ A suite of benchmarks designed to test and compare JavaScript ECS library perfor
 
 The best result for each benchmark is marked in bold text. Note that run to run variance for these benchmarks is typically 1-4%. Any benchmarks within a few percent of each other should be considered “effectively equal”. The above benchmarks are run on node v17.8.0.
 
+### v0.1.3
+
+| op/s        | packed_5 | simple_iter | frag_iter | entity_cycle | add_remove |
+| ----------- | -------: | ----------: | --------: | -----------: | ---------: |
+| simkit-core |    2,692 |         753 |     3,976 |          167 |      9,178 |
+
 ## Frameworks
 
 - [`@javelin/ecs`](https://github.com/3mcd/javelin)

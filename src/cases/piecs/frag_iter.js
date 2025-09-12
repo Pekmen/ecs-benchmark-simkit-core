@@ -26,8 +26,8 @@ export default function createFragIter(count) {
             Data.arr[entities[i]] *= 2;
           }
         },
-        (q) => q.every(Data)
-      )
+        (q) => q.every(Data),
+      ),
     )
     .registerSystem(
       createEntitySystem(
@@ -36,8 +36,8 @@ export default function createFragIter(count) {
             Z.arr[entities[i]] *= 2;
           }
         },
-        (q) => q.every(Z)
-      )
+        (q) => q.every(Z),
+      ),
     )
     .initialize();
 

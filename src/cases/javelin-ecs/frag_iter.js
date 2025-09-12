@@ -10,7 +10,7 @@ for (let i = 0; i < COMPS; i++) {
       type: i,
       schema: { value: number },
       initialize,
-    })
+    }),
   );
 }
 
@@ -46,7 +46,7 @@ export default (count) => {
     for (let i = 0; i < COMPS; i++) {
       world.spawn(
         world.component(componentTypes[i], 0),
-        world.component(Data, 0)
+        world.component(Data, 0),
       );
     }
   }

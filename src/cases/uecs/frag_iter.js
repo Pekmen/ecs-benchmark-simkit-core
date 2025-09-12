@@ -5,7 +5,7 @@ const COMPS = Array.from("ABCDEFGHIJKLMNOPQRSTUVWXYZ", (name) =>
     return function ${name} (value) {
       this.value = value;
     }
-  `)()
+  `)(),
 );
 
 const Z = COMPS[25];
