@@ -11,7 +11,8 @@ export default async (count) => {
     }
 
     update() {
-      for (const entity of this.queryA.execute()) {
+      const entities = this.queryA.execute();
+      for (const entity of entities) {
         if (!this.world.hasComponent(entity, B)) {
           this.world.addComponent(entity, B, { value: 0 });
         }
@@ -26,9 +27,10 @@ export default async (count) => {
     }
 
     update() {
+      const entities = this.queryB.execute();
       const entitiesToUpdate = [];
 
-      for (const entity of this.queryB.execute()) {
+      for (const entity of entities) {
         entitiesToUpdate.push(entity);
       }
 
@@ -42,7 +44,6 @@ export default async (count) => {
   world.addSystem(new AddBSystem(world));
   world.addSystem(new RemoveBSystem(world));
 
-  // Create entities with A component
   for (let i = 0; i < count; i++) {
     const entity = world.createEntity();
     world.addComponent(entity, A, { value: i });

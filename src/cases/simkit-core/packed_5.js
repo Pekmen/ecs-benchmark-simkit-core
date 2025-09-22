@@ -14,7 +14,8 @@ export default async (count) => {
     }
 
     update() {
-      for (const entity of this.query.execute()) {
+      const entities = this.query.execute();
+      for (const entity of entities) {
         this.world.updateComponent(entity, A, (component) => ({
           value: component.value * 2,
         }));
@@ -29,7 +30,8 @@ export default async (count) => {
     }
 
     update() {
-      for (const entity of this.query.execute()) {
+      const entities = this.query.execute();
+      for (const entity of entities) {
         this.world.updateComponent(entity, B, (component) => ({
           value: component.value * 2,
         }));
@@ -44,7 +46,8 @@ export default async (count) => {
     }
 
     update() {
-      for (const entity of this.query.execute()) {
+      const entities = this.query.execute();
+      for (const entity of entities) {
         this.world.updateComponent(entity, C, (component) => ({
           value: component.value * 2,
         }));
@@ -59,7 +62,8 @@ export default async (count) => {
     }
 
     update() {
-      for (const entity of this.query.execute()) {
+      const entities = this.query.execute();
+      for (const entity of entities) {
         this.world.updateComponent(entity, D, (component) => ({
           value: component.value * 2,
         }));
@@ -74,7 +78,8 @@ export default async (count) => {
     }
 
     update() {
-      for (const entity of this.query.execute()) {
+      const entities = this.query.execute();
+      for (const entity of entities) {
         this.world.updateComponent(entity, E, (component) => ({
           value: component.value * 2,
         }));
@@ -89,7 +94,6 @@ export default async (count) => {
   world.addSystem(new DSystem(world));
   world.addSystem(new ESystem(world));
 
-  // Create entities with all components (initialize with value 1 so doubling has effect)
   for (let i = 0; i < count; i++) {
     const entity = world.createEntity();
     world.addComponent(entity, A, { value: 1 });

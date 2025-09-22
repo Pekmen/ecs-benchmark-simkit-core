@@ -11,7 +11,8 @@ export default async (count) => {
     }
 
     update() {
-      for (const entity of this.query.execute()) {
+      const entities = this.query.execute();
+      for (const entity of entities) {
         const aComponent = this.world.getComponent(entity, A);
         if (aComponent) {
           const newEntity = this.world.createEntity();
@@ -28,9 +29,10 @@ export default async (count) => {
     }
 
     update() {
+      const entities = this.query.execute();
       const entitiesToDestroy = [];
 
-      for (const entity of this.query.execute()) {
+      for (const entity of entities) {
         entitiesToDestroy.push(entity);
       }
 
@@ -44,7 +46,6 @@ export default async (count) => {
   world.addSystem(new SpawnBSystem(world));
   world.addSystem(new DestroyBSystem(world));
 
-  // Create initial entities with A component
   for (let i = 0; i < count; i++) {
     const entity = world.createEntity();
     world.addComponent(entity, A, { value: i });

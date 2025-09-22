@@ -1,15 +1,14 @@
 import { World, System, defineComponent } from "simkit-core";
 
 export default async (count) => {
-  // Create 26 component types (A through Z)
   const components = [];
   for (let i = 0; i < 26; i++) {
-    const letter = String.fromCharCode(65 + i); // A = 65
+    const letter = String.fromCharCode(65 + i);
     components.push(defineComponent(letter, { value: 0 }));
   }
 
   const Data = defineComponent("Data", { value: 0 });
-  const Z = components[25]; // Z component
+  const Z = components[25];
 
   class DataSystem extends System {
     constructor(world) {
@@ -18,7 +17,8 @@ export default async (count) => {
     }
 
     update() {
-      for (const entity of this.query.execute()) {
+      const entities = this.query.execute();
+      for (const entity of entities) {
         this.world.updateComponent(entity, Data, (component) => ({
           value: component.value * 2,
         }));
@@ -33,7 +33,8 @@ export default async (count) => {
     }
 
     update() {
-      for (const entity of this.query.execute()) {
+      const entities = this.query.execute();
+      for (const entity of entities) {
         this.world.updateComponent(entity, Z, (component) => ({
           value: component.value * 2,
         }));
@@ -45,7 +46,6 @@ export default async (count) => {
   world.addSystem(new DataSystem(world));
   world.addSystem(new ZSystem(world));
 
-  // Create entities: count entities for each component type, each with Data component
   for (let i = 0; i < count; i++) {
     for (const Component of components) {
       const entity = world.createEntity();

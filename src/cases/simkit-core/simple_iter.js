@@ -14,7 +14,8 @@ export default async (count) => {
     }
 
     update() {
-      for (const entity of this.query.execute()) {
+      const entities = this.query.execute();
+      for (const entity of entities) {
         const a = this.world.getComponent(entity, A);
         const b = this.world.getComponent(entity, B);
         if (a && b) {
@@ -33,7 +34,8 @@ export default async (count) => {
     }
 
     update() {
-      for (const entity of this.query.execute()) {
+      const entities = this.query.execute();
+      for (const entity of entities) {
         const c = this.world.getComponent(entity, C);
         const d = this.world.getComponent(entity, D);
         if (c && d) {
@@ -52,7 +54,8 @@ export default async (count) => {
     }
 
     update() {
-      for (const entity of this.query.execute()) {
+      const entities = this.query.execute();
+      for (const entity of entities) {
         const c = this.world.getComponent(entity, C);
         const e = this.world.getComponent(entity, E);
         if (c && e) {
@@ -69,27 +72,22 @@ export default async (count) => {
   world.addSystem(new CDSystem(world));
   world.addSystem(new CESystem(world));
 
-  // Create 1,000 entities of each type as described in the benchmark
   for (let i = 0; i < 1000; i++) {
-    // 1,000 entities with (A, B)
     const entity1 = world.createEntity();
     world.addComponent(entity1, A, { value: 0 });
     world.addComponent(entity1, B, { value: 1 });
 
-    // 1,000 entities with (A, B, C)
     const entity2 = world.createEntity();
     world.addComponent(entity2, A, { value: 0 });
     world.addComponent(entity2, B, { value: 1 });
     world.addComponent(entity2, C, { value: 2 });
 
-    // 1,000 entities with (A, B, C, D)
     const entity3 = world.createEntity();
     world.addComponent(entity3, A, { value: 0 });
     world.addComponent(entity3, B, { value: 1 });
     world.addComponent(entity3, C, { value: 2 });
     world.addComponent(entity3, D, { value: 3 });
 
-    // 1,000 entities with (A, B, C, E)
     const entity4 = world.createEntity();
     world.addComponent(entity4, A, { value: 0 });
     world.addComponent(entity4, B, { value: 1 });
