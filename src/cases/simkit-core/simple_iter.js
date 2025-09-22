@@ -10,11 +10,11 @@ export default async (count) => {
   class ABSystem extends System {
     constructor(world) {
       super(world);
-      this.query = world.createQuery({ all: [A, B] });
+      this.query = world.createQuery({ with: [A, B] });
     }
 
     update() {
-      for (const entity of this.query.entities) {
+      for (const entity of this.query.execute()) {
         const a = this.world.getComponent(entity, A);
         const b = this.world.getComponent(entity, B);
         if (a && b) {
@@ -29,11 +29,11 @@ export default async (count) => {
   class CDSystem extends System {
     constructor(world) {
       super(world);
-      this.query = world.createQuery({ all: [C, D] });
+      this.query = world.createQuery({ with: [C, D] });
     }
 
     update() {
-      for (const entity of this.query.entities) {
+      for (const entity of this.query.execute()) {
         const c = this.world.getComponent(entity, C);
         const d = this.world.getComponent(entity, D);
         if (c && d) {
@@ -48,11 +48,11 @@ export default async (count) => {
   class CESystem extends System {
     constructor(world) {
       super(world);
-      this.query = world.createQuery({ all: [C, E] });
+      this.query = world.createQuery({ with: [C, E] });
     }
 
     update() {
-      for (const entity of this.query.entities) {
+      for (const entity of this.query.execute()) {
         const c = this.world.getComponent(entity, C);
         const e = this.world.getComponent(entity, E);
         if (c && e) {

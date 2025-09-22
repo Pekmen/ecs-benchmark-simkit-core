@@ -7,11 +7,11 @@ export default async (count) => {
   class AddBSystem extends System {
     constructor(world) {
       super(world);
-      this.queryA = world.createQuery({ all: [A] });
+      this.queryA = world.createQuery({ with: [A] });
     }
 
     update() {
-      for (const entity of this.queryA.entities) {
+      for (const entity of this.queryA.execute()) {
         if (!this.world.hasComponent(entity, B)) {
           this.world.addComponent(entity, B, { value: 0 });
         }
@@ -22,13 +22,13 @@ export default async (count) => {
   class RemoveBSystem extends System {
     constructor(world) {
       super(world);
-      this.queryB = world.createQuery({ all: [B] });
+      this.queryB = world.createQuery({ with: [B] });
     }
 
     update() {
       const entitiesToUpdate = [];
 
-      for (const entity of this.queryB.entities) {
+      for (const entity of this.queryB.execute()) {
         entitiesToUpdate.push(entity);
       }
 

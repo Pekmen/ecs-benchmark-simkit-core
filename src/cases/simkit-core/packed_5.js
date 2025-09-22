@@ -10,11 +10,11 @@ export default async (count) => {
   class ASystem extends System {
     constructor(world) {
       super(world);
-      this.query = world.createQuery({ all: [A] });
+      this.query = world.createQuery({ with: [A] });
     }
 
     update() {
-      for (const entity of this.query.entities) {
+      for (const entity of this.query.execute()) {
         this.world.updateComponent(entity, A, (component) => ({
           value: component.value * 2,
         }));
@@ -25,11 +25,11 @@ export default async (count) => {
   class BSystem extends System {
     constructor(world) {
       super(world);
-      this.query = world.createQuery({ all: [B] });
+      this.query = world.createQuery({ with: [B] });
     }
 
     update() {
-      for (const entity of this.query.entities) {
+      for (const entity of this.query.execute()) {
         this.world.updateComponent(entity, B, (component) => ({
           value: component.value * 2,
         }));
@@ -40,11 +40,11 @@ export default async (count) => {
   class CSystem extends System {
     constructor(world) {
       super(world);
-      this.query = world.createQuery({ all: [C] });
+      this.query = world.createQuery({ with: [C] });
     }
 
     update() {
-      for (const entity of this.query.entities) {
+      for (const entity of this.query.execute()) {
         this.world.updateComponent(entity, C, (component) => ({
           value: component.value * 2,
         }));
@@ -55,11 +55,11 @@ export default async (count) => {
   class DSystem extends System {
     constructor(world) {
       super(world);
-      this.query = world.createQuery({ all: [D] });
+      this.query = world.createQuery({ with: [D] });
     }
 
     update() {
-      for (const entity of this.query.entities) {
+      for (const entity of this.query.execute()) {
         this.world.updateComponent(entity, D, (component) => ({
           value: component.value * 2,
         }));
@@ -70,11 +70,11 @@ export default async (count) => {
   class ESystem extends System {
     constructor(world) {
       super(world);
-      this.query = world.createQuery({ all: [E] });
+      this.query = world.createQuery({ with: [E] });
     }
 
     update() {
-      for (const entity of this.query.entities) {
+      for (const entity of this.query.execute()) {
         this.world.updateComponent(entity, E, (component) => ({
           value: component.value * 2,
         }));

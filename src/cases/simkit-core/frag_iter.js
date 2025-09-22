@@ -14,11 +14,11 @@ export default async (count) => {
   class DataSystem extends System {
     constructor(world) {
       super(world);
-      this.query = world.createQuery({ all: [Data] });
+      this.query = world.createQuery({ with: [Data] });
     }
 
     update() {
-      for (const entity of this.query.entities) {
+      for (const entity of this.query.execute()) {
         this.world.updateComponent(entity, Data, (component) => ({
           value: component.value * 2,
         }));
@@ -29,11 +29,11 @@ export default async (count) => {
   class ZSystem extends System {
     constructor(world) {
       super(world);
-      this.query = world.createQuery({ all: [Z] });
+      this.query = world.createQuery({ with: [Z] });
     }
 
     update() {
-      for (const entity of this.query.entities) {
+      for (const entity of this.query.execute()) {
         this.world.updateComponent(entity, Z, (component) => ({
           value: component.value * 2,
         }));

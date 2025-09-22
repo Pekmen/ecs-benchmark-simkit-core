@@ -7,11 +7,11 @@ export default async (count) => {
   class SpawnBSystem extends System {
     constructor(world) {
       super(world);
-      this.query = world.createQuery({ all: [A] });
+      this.query = world.createQuery({ with: [A] });
     }
 
     update() {
-      for (const entity of this.query.entities) {
+      for (const entity of this.query.execute()) {
         const aComponent = this.world.getComponent(entity, A);
         if (aComponent) {
           const newEntity = this.world.createEntity();
@@ -24,13 +24,13 @@ export default async (count) => {
   class DestroyBSystem extends System {
     constructor(world) {
       super(world);
-      this.query = world.createQuery({ all: [B] });
+      this.query = world.createQuery({ with: [B] });
     }
 
     update() {
       const entitiesToDestroy = [];
 
-      for (const entity of this.query.entities) {
+      for (const entity of this.query.execute()) {
         entitiesToDestroy.push(entity);
       }
 
