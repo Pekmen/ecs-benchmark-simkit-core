@@ -12,27 +12,31 @@ export default async (count) => {
   const Z = components[25]; // Z component
 
   class DataSystem extends System {
+    constructor(world) {
+      super(world);
+      this.query = world.createQuery({ all: [Data] });
+    }
+
     update() {
-      const entities = this.world.getAllEntities();
-      for (const entity of entities) {
-        if (this.world.hasComponent(entity, Data)) {
-          this.world.updateComponent(entity, Data, (component) => ({
-            value: component.value * 2,
-          }));
-        }
+      for (const entity of this.query.entities) {
+        this.world.updateComponent(entity, Data, (component) => ({
+          value: component.value * 2,
+        }));
       }
     }
   }
 
   class ZSystem extends System {
+    constructor(world) {
+      super(world);
+      this.query = world.createQuery({ all: [Z] });
+    }
+
     update() {
-      const entities = this.world.getAllEntities();
-      for (const entity of entities) {
-        if (this.world.hasComponent(entity, Z)) {
-          this.world.updateComponent(entity, Z, (component) => ({
-            value: component.value * 2,
-          }));
-        }
+      for (const entity of this.query.entities) {
+        this.world.updateComponent(entity, Z, (component) => ({
+          value: component.value * 2,
+        }));
       }
     }
   }

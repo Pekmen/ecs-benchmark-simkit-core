@@ -5,14 +5,14 @@ export default async (count) => {
   const B = defineComponent("B", { value: 0 });
 
   class AddBSystem extends System {
-    update() {
-      const entities = this.world.getAllEntities();
+    constructor(world) {
+      super(world);
+      this.queryA = world.createQuery({ all: [A] });
+    }
 
-      for (const entity of entities) {
-        if (
-          this.world.hasComponent(entity, A) &&
-          !this.world.hasComponent(entity, B)
-        ) {
+    update() {
+      for (const entity of this.queryA.entities) {
+        if (!this.world.hasComponent(entity, B)) {
           this.world.addComponent(entity, B, { value: 0 });
         }
       }
@@ -20,14 +20,16 @@ export default async (count) => {
   }
 
   class RemoveBSystem extends System {
+    constructor(world) {
+      super(world);
+      this.queryB = world.createQuery({ all: [B] });
+    }
+
     update() {
-      const entities = this.world.getAllEntities();
       const entitiesToUpdate = [];
 
-      for (const entity of entities) {
-        if (this.world.hasComponent(entity, B)) {
-          entitiesToUpdate.push(entity);
-        }
+      for (const entity of this.queryB.entities) {
+        entitiesToUpdate.push(entity);
       }
 
       for (const entity of entitiesToUpdate) {

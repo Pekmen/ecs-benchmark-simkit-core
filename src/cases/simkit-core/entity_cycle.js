@@ -5,29 +5,33 @@ export default async (count) => {
   const B = defineComponent("B", { value: 0 });
 
   class SpawnBSystem extends System {
+    constructor(world) {
+      super(world);
+      this.query = world.createQuery({ all: [A] });
+    }
+
     update() {
-      const entities = this.world.getAllEntities();
-      for (const entity of entities) {
-        if (this.world.hasComponent(entity, A)) {
-          const aComponent = this.world.getComponent(entity, A);
-          if (aComponent) {
-            const newEntity = this.world.createEntity();
-            this.world.addComponent(newEntity, B, { value: aComponent.value });
-          }
+      for (const entity of this.query.entities) {
+        const aComponent = this.world.getComponent(entity, A);
+        if (aComponent) {
+          const newEntity = this.world.createEntity();
+          this.world.addComponent(newEntity, B, { value: aComponent.value });
         }
       }
     }
   }
 
   class DestroyBSystem extends System {
+    constructor(world) {
+      super(world);
+      this.query = world.createQuery({ all: [B] });
+    }
+
     update() {
-      const entities = this.world.getAllEntities();
       const entitiesToDestroy = [];
 
-      for (const entity of entities) {
-        if (this.world.hasComponent(entity, B)) {
-          entitiesToDestroy.push(entity);
-        }
+      for (const entity of this.query.entities) {
+        entitiesToDestroy.push(entity);
       }
 
       for (const entity of entitiesToDestroy) {

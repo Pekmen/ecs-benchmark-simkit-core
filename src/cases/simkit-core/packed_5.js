@@ -8,66 +8,76 @@ export default async (count) => {
   const E = defineComponent("E", { value: 0 });
 
   class ASystem extends System {
+    constructor(world) {
+      super(world);
+      this.query = world.createQuery({ all: [A] });
+    }
+
     update() {
-      const entities = this.world.getAllEntities();
-      for (const entity of entities) {
-        if (this.world.hasComponent(entity, A)) {
-          this.world.updateComponent(entity, A, (component) => ({
-            value: component.value * 2,
-          }));
-        }
+      for (const entity of this.query.entities) {
+        this.world.updateComponent(entity, A, (component) => ({
+          value: component.value * 2,
+        }));
       }
     }
   }
 
   class BSystem extends System {
+    constructor(world) {
+      super(world);
+      this.query = world.createQuery({ all: [B] });
+    }
+
     update() {
-      const entities = this.world.getAllEntities();
-      for (const entity of entities) {
-        if (this.world.hasComponent(entity, B)) {
-          this.world.updateComponent(entity, B, (component) => ({
-            value: component.value * 2,
-          }));
-        }
+      for (const entity of this.query.entities) {
+        this.world.updateComponent(entity, B, (component) => ({
+          value: component.value * 2,
+        }));
       }
     }
   }
 
   class CSystem extends System {
+    constructor(world) {
+      super(world);
+      this.query = world.createQuery({ all: [C] });
+    }
+
     update() {
-      const entities = this.world.getAllEntities();
-      for (const entity of entities) {
-        if (this.world.hasComponent(entity, C)) {
-          this.world.updateComponent(entity, C, (component) => ({
-            value: component.value * 2,
-          }));
-        }
+      for (const entity of this.query.entities) {
+        this.world.updateComponent(entity, C, (component) => ({
+          value: component.value * 2,
+        }));
       }
     }
   }
 
   class DSystem extends System {
+    constructor(world) {
+      super(world);
+      this.query = world.createQuery({ all: [D] });
+    }
+
     update() {
-      const entities = this.world.getAllEntities();
-      for (const entity of entities) {
-        if (this.world.hasComponent(entity, D)) {
-          this.world.updateComponent(entity, D, (component) => ({
-            value: component.value * 2,
-          }));
-        }
+      for (const entity of this.query.entities) {
+        this.world.updateComponent(entity, D, (component) => ({
+          value: component.value * 2,
+        }));
       }
     }
   }
 
   class ESystem extends System {
+    constructor(world) {
+      super(world);
+      this.query = world.createQuery({ all: [E] });
+    }
+
     update() {
-      const entities = this.world.getAllEntities();
-      for (const entity of entities) {
-        if (this.world.hasComponent(entity, E)) {
-          this.world.updateComponent(entity, E, (component) => ({
-            value: component.value * 2,
-          }));
-        }
+      for (const entity of this.query.entities) {
+        this.world.updateComponent(entity, E, (component) => ({
+          value: component.value * 2,
+        }));
       }
     }
   }
