@@ -19,9 +19,10 @@ export default async (count) => {
     update() {
       const entities = this.query.execute();
       for (const entity of entities) {
-        this.world.updateComponent(entity, Data, (component) => ({
-          value: component.value * 2,
-        }));
+        const component = this.world.getComponent(entity, Data);
+        if (component) {
+          component.value = component.value * 2;
+        }
       }
     }
   }
@@ -35,9 +36,10 @@ export default async (count) => {
     update() {
       const entities = this.query.execute();
       for (const entity of entities) {
-        this.world.updateComponent(entity, Z, (component) => ({
-          value: component.value * 2,
-        }));
+        const component = this.world.getComponent(entity, Z);
+        if (component) {
+          component.value = component.value * 2;
+        }
       }
     }
   }

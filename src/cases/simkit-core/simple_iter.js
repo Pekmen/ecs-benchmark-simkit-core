@@ -20,8 +20,8 @@ export default async (count) => {
         const b = this.world.getComponent(entity, B);
         if (a && b) {
           const temp = a.value;
-          this.world.updateComponent(entity, A, () => ({ value: b.value }));
-          this.world.updateComponent(entity, B, () => ({ value: temp }));
+          a.value = b.value;
+          b.value = temp;
         }
       }
     }
@@ -40,8 +40,8 @@ export default async (count) => {
         const d = this.world.getComponent(entity, D);
         if (c && d) {
           const temp = c.value;
-          this.world.updateComponent(entity, C, () => ({ value: d.value }));
-          this.world.updateComponent(entity, D, () => ({ value: temp }));
+          c.value = d.value;
+          d.value = temp;
         }
       }
     }
@@ -60,8 +60,8 @@ export default async (count) => {
         const e = this.world.getComponent(entity, E);
         if (c && e) {
           const temp = c.value;
-          this.world.updateComponent(entity, C, () => ({ value: e.value }));
-          this.world.updateComponent(entity, E, () => ({ value: temp }));
+          c.value = e.value;
+          e.value = temp;
         }
       }
     }

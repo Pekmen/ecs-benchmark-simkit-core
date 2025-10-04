@@ -16,9 +16,10 @@ export default async (count) => {
     update() {
       const entities = this.query.execute();
       for (const entity of entities) {
-        this.world.updateComponent(entity, A, (component) => ({
-          value: component.value * 2,
-        }));
+        const component = this.world.getComponent(entity, A);
+        if (component) {
+          component.value = component.value * 2;
+        }
       }
     }
   }
@@ -32,9 +33,10 @@ export default async (count) => {
     update() {
       const entities = this.query.execute();
       for (const entity of entities) {
-        this.world.updateComponent(entity, B, (component) => ({
-          value: component.value * 2,
-        }));
+        const component = this.world.getComponent(entity, B);
+        if (component) {
+          component.value = component.value * 2;
+        }
       }
     }
   }
@@ -48,9 +50,10 @@ export default async (count) => {
     update() {
       const entities = this.query.execute();
       for (const entity of entities) {
-        this.world.updateComponent(entity, C, (component) => ({
-          value: component.value * 2,
-        }));
+        const component = this.world.getComponent(entity, C);
+        if (component) {
+          component.value = component.value * 2;
+        }
       }
     }
   }
@@ -64,9 +67,10 @@ export default async (count) => {
     update() {
       const entities = this.query.execute();
       for (const entity of entities) {
-        this.world.updateComponent(entity, D, (component) => ({
-          value: component.value * 2,
-        }));
+        const component = this.world.getComponent(entity, D);
+        if (component) {
+          component.value = component.value * 2;
+        }
       }
     }
   }
@@ -80,9 +84,10 @@ export default async (count) => {
     update() {
       const entities = this.query.execute();
       for (const entity of entities) {
-        this.world.updateComponent(entity, E, (component) => ({
-          value: component.value * 2,
-        }));
+        const component = this.world.getComponent(entity, E);
+        if (component) {
+          component.value = component.value * 2;
+        }
       }
     }
   }
